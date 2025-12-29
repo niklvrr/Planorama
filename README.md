@@ -9,6 +9,9 @@ Planorama — это сервис для проектирования интер
 
 ### 2.1 Архитектурный стиль: Монолит
 
+### 2.2 Схема
+![Architecture image](docs/diagrams/architecture-diagram.jpg)
+
 ## 3. Технологический стек
 
 ### 3.1 Frontend
