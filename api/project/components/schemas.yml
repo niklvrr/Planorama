@@ -1,0 +1,256 @@
+components:
+  schemas:
+    # ==== REQUESTS ====
+    CreateProjectRequest:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+
+    UpdateProjectRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        settings:
+          type: object
+
+    CreateSceneFromBlueprintRequest:
+      type: object
+      required:
+        - name
+        - blueprintData
+      properties:
+        name:
+          type: string
+        blueprintData:
+          type: object
+
+    CreateSceneFromPhotoRequest:
+      type: object
+      required:
+        - name
+        - photo
+      properties:
+        name:
+          type: string
+        photo:
+          type: string
+          format: binary
+
+    UpdateSceneRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        wallLayout:
+          type: object
+        furnitureLayout:
+          type: object
+        materials:
+          type: array
+          items:
+            type: object
+        furniture:
+          type: array
+          items:
+            type: object
+
+    AddFurnitureRequest:
+      type: object
+      required:
+        - furnitureId
+        - position
+      properties:
+        furnitureId:
+          type: string
+          format: uuid
+        position:
+          type: object
+          properties:
+            x:
+              type: number
+            y:
+              type: number
+            z:
+              type: number
+        rotation:
+          type: object
+          properties:
+            x:
+              type: number
+            y:
+              type: number
+            z:
+              type: number
+        scale:
+          type: object
+          properties:
+            x:
+              type: number
+            y:
+              type: number
+            z:
+              type: number
+
+    AddMaterialRequest:
+      type: object
+      required:
+        - materialId
+        - position
+      properties:
+        materialId:
+          type: string
+          format: uuid
+        surface:
+          type: string
+          format: uuid
+
+    ImportFurnitureFromPhotoRequest:
+      type: object
+      required:
+        - photo
+      properties:
+        photo:
+          type: string
+          format: binary
+        name:
+          type: string
+
+    ImportFurnitureFromModelRequest:
+      type: object
+      required:
+        - modelFile
+      properties:
+        modelFile:
+          type: string
+          format: binary
+        name:
+          type: string
+
+
+
+    # ==== RESPONSES ====
+    ProjectResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        userId:
+          type: string
+          format: uuid
+        name:
+          type: string
+        settings:
+          type: object
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    ProjectListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectResponse'
+        pagination:
+          $ref: '../../common/components/schemas.yml#/components/schemas/Pagination'
+
+    SceneResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        projectId:
+          type: string
+          format: uuid
+        name:
+          type: string
+        wallLayout:
+          type: object
+        furnitureLayout:
+          type: object
+        materials:
+          type: array
+          items:
+            type: object
+        furniture:
+          type: array
+          items:
+            type: object
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    FurnitureInSceneResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        sceneId:
+          type: string
+          format: uuid
+        furnitureId:
+          type: string
+          format: uuid
+        position:
+          type: object
+          properties:
+            x:
+              type: number
+            y:
+              type: number
+            z:
+              type: number
+        rotation:
+          type: object
+          properties:
+            x:
+              type: number
+            y:
+              type: number
+            z:
+              type: number
+        scale:
+          type: object
+          properties:
+            x:
+              type: number
+            y:
+              type: number
+            z:
+              type: number
+        createdAt:
+          type: string
+          format: date-time
+
+    MaterialInSceneResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        sceneId:
+          type: string
+          format: uuid
+        materialId:
+          type: string
+          format: uuid
+        surface:
+          type: string
+          format: uuid
+        createdAt:
+          type: string
+          format: date-time

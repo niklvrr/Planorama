@@ -1,0 +1,433 @@
+paths:
+  /estimates:
+    post:
+      tags:
+        - Estimate Module
+      summary: Создать смету
+      operationId: createEstimate
+      security:
+        - BearerAuth: [ ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '../components/schemas.yml#/components/schemas/CreateEstimateRequest'
+      responses:
+        '201':
+          description: Смета создана
+          content:
+            application/json:
+              schema:
+                $ref: '../components/schemas.yml#/components/schemas/EstimateResponse'
+        '400':
+          description: Некорректные данные
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+
+  /estimates/{estimateId}:
+    get:
+      tags:
+        - Estimate Module
+      summary: Получить все элементы сметы
+      operationId: getEstimate
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: estimateId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Элементы сметы
+          content:
+            application/json:
+              schema:
+                $ref: '../components/schemas.yml#/components/schemas/EstimateResponse'
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '404':
+          description: Смета не найдена
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+    put:
+      tags:
+        - Estimate Module
+      summary: Изменить смету
+      operationId: updateEstimate
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: estimateId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '../components/schemas.yml#/components/schemas/UpdateEstimateRequest'
+      responses:
+        '200':
+          description: Смета обновлена
+          content:
+            application/json:
+              schema:
+                $ref: '../components/schemas.yml#/components/schemas/EstimateResponse'
+        '400':
+          description: Некорректные данные
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '404':
+          description: Смета не найдена
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+    delete:
+      tags:
+        - Estimate Module
+      summary: Удалить смету
+      operationId: deleteEstimate
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: estimateId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Смета удалена
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '404':
+          description: Смета не найдена
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+
+  /estimates/{estimateId}/furniture:
+    post:
+      tags:
+        - Estimate Module
+      summary: Добавить мебель в смету
+      operationId: addFurnitureToEstimate
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: estimateId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '../components/schemas.yml#/components/schemas/AddEstimateItemRequest'
+      responses:
+        '201':
+          description: Мебель добавлена в смету
+          content:
+            application/json:
+              schema:
+                $ref: '../components/schemas.yml#/components/schemas/EstimateItemResponse'
+        '400':
+          description: Некорректные данные
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '404':
+          description: Смета не найдена
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+    delete:
+      tags:
+        - Estimate Module
+      summary: Удалить мебель из сметы
+      operationId: removeFurnitureFromEstimate
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: estimateId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: itemId
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Мебель удалена из сметы
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '404':
+          description: Элемент сметы не найден
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+
+  /estimates/{estimateId}/materials:
+    post:
+      tags:
+        - Estimate Module
+      summary: Добавить материал в смету
+      operationId: addMaterialToEstimate
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: estimateId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '../components/schemas.yml#/components/schemas/AddEstimateItemRequest'
+      responses:
+        '201':
+          description: Материал добавлен в смету
+          content:
+            application/json:
+              schema:
+                $ref: '../components/schemas.yml#/components/schemas/EstimateItemResponse'
+        '400':
+          description: Некорректные данные
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '404':
+          description: Смета не найдена
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+    delete:
+      tags:
+        - Estimate Module
+      summary: Удалить материал из сметы
+      operationId: removeMaterialFromEstimate
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: estimateId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: itemId
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Материал удален из сметы
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '404':
+          description: Элемент сметы не найден
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+
+  /estimates/{estimateId}/clear:
+    post:
+      tags:
+        - Estimate Module
+      summary: Очистить смету
+      operationId: clearEstimate
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: estimateId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Смета очищена
+          content:
+            application/json:
+              schema:
+                $ref: '../components/schemas.yml#/components/schemas/EstimateResponse'
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '404':
+          description: Смета не найдена
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+
+  /estimates/{estimateId}/total:
+    get:
+      tags:
+        - Estimate Module
+      summary: Расчет итоговой стоимости мебели/материалов/всех работ
+      operationId: calculateEstimateTotal
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: estimateId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Итоговая стоимость
+          content:
+            application/json:
+              schema:
+                $ref: '../components/schemas.yml#/components/schemas/EstimateTotalResponse'
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '404':
+          description: Смета не найдена
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+
+  /estimates/{estimateId}/export:
+    get:
+      tags:
+        - Estimate Module
+      summary: Экспорт сметы
+      operationId: exportEstimate
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: estimateId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: format
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [ pdf, excel, csv ]
+      responses:
+        '200':
+          description: Файл экспортирован
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+              schema:
+                type: string
+                format: binary
+            text/csv:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: Некорректный формат
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '404':
+          description: Смета не найдена
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'

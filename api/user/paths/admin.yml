@@ -1,0 +1,139 @@
+paths:
+  /admin/users/{userId}/block:
+    post:
+      tags:
+        - User Module
+      summary: Заблокировать пользователя
+      operationId: blockUser
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - $ref: '../components/parameters.yml#/components/parameters/UserId'
+      responses:
+        '200':
+          description: Пользователь заблокирован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/SuccessResponse'
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '403':
+          description: Недостаточно прав
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '404':
+          description: Пользователь не найден
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+
+  /admin/users/{userId}/unblock:
+    post:
+      tags:
+        - User Module
+      summary: Разблокировать пользователя
+      operationId: unblockUser
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - $ref: '../components/parameters.yml#/components/parameters/UserId'
+      responses:
+        '200':
+          description: Пользователь разблокирован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/SuccessResponse'
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '403':
+          description: Недостаточно прав
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '404':
+          description: Пользователь не найден
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+
+  /admin/users:
+    get:
+      tags:
+        - User Module
+      summary: Получить список пользователей
+      operationId: listUsers
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - $ref: '../../common/components/parameters.yml#/components/parameters/PageParam'
+        - $ref: '../../common/components/parameters.yml#/components/parameters/LimitParam'
+      responses:
+        '200':
+          description: Список пользователей
+          content:
+            application/json:
+              schema:
+                $ref: '../components/schemas.yml#/components/schemas/UserListResponse'
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '403':
+          description: Недостаточно прав
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+
+  /admin/users/{userId}/promote:
+    post:
+      tags:
+        - User Module
+      summary: Повысить до админа
+      operationId: promoteToAdmin
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - $ref: '../components/parameters.yml#/components/parameters/UserId'
+      responses:
+        '200':
+          description: Пользователь повышен до админа
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/SuccessResponse'
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '403':
+          description: Недостаточно прав
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '404':
+          description: Пользователь не найден
+          content:
+            application/json:
+              schema:
+                  $ref: '../../common/components/schemas.yml#/components/schemas/Error'

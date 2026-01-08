@@ -1,0 +1,17 @@
+components:
+  parameters:
+    ProjectId:
+      name: projectId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+
+    SceneId:
+      name: sceneId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid

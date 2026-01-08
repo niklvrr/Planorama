@@ -1,0 +1,361 @@
+paths:
+  /users/login:
+    post:
+      tags:
+        - User Module
+      summary: Войти в аккаунт по почте
+      operationId: loginUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '../components/schemas.yml#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Успешная аутентификация
+          content:
+            application/json:
+              schema:
+                $ref: '../components/schemas.yml#/components/schemas/AuthResponse'
+        '400':
+          description: Некорректные данные
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '401':
+          description: Неверные учетные данные
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+
+  /users/register:
+    post:
+      tags:
+        - User Module
+      summary: Создать аккаунт
+      operationId: registerUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '../components/schemas.yml#/components/schemas/RegisterRequest'
+      responses:
+        '201':
+          description: Аккаунт успешно создан
+          content:
+            application/json:
+              schema:
+                $ref: '../components/schemas.yml#/components/schemas/AuthResponse'
+        '400':
+          description: Некорректные данные
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '409':
+          description: Пользователь уже существует
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+
+  /users/verify-email:
+    post:
+      tags:
+        - User Module
+      summary: Подтвердить почту через письмо
+      operationId: verifyEmail
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '../components/schemas.yml#/components/schemas/VerifyEmailRequest'
+      responses:
+        '200':
+          description: Почта успешно подтверждена
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/SuccessResponse'
+        '400':
+          description: Некорректный или истекший токен
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+
+  /users/logout:
+    post:
+      tags:
+        - User Module
+      summary: Выйти из аккаунта
+      operationId: logoutUser
+      security:
+        - BearerAuth: [ ]
+      responses:
+        '200':
+          description: Успешный выход
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/SuccessResponse'
+        '401':
+          description: Не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+
+  /users/refresh:
+    post:
+      tags:
+        - User Module
+      summary: Обновить access токен
+      operationId: refreshToken
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '../components/schemas.yml#/components/schemas/RefreshTokenRequest'
+      responses:
+        '200':
+          description: Токен успешно обновлен
+          content:
+            application/json:
+              schema:
+                $ref: '../components/schemas.yml#/components/schemas/RefreshTokenResponse'
+        '400':
+          description: Некорректный или истекший токен
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+
+  /users/{userId}:
+    get:
+      tags:
+        - User Module
+      summary: Получить аккаунт по id
+      operationId: getUserById
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - $ref: '../components/parameters.yml#/components/parameters/UserId'
+      responses:
+        '200':
+          description: Данные пользователя
+          content:
+            application/json:
+              schema:
+                $ref: '../components/schemas.yml#/components/schemas/UserResponse'
+
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+
+        '404':
+          description: Пользователь не найден
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+    put:
+      tags:
+        - User Module
+      summary: Изменить данные аккаунта
+      operationId: updateUser
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - $ref: '../components/parameters.yml#/components/parameters/UserId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '../components/schemas.yml#/components/schemas/UpdateUserRequest'
+      responses:
+        '200':
+          description: Данные аккаунта обновлены
+          content:
+            application/json:
+              schema:
+                $ref: '../components/schemas.yml#/components/schemas/UserResponse'
+        '400':
+          description: Некорректные данные
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+
+        '404':
+          description: Пользователь не найден
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+    delete:
+      tags:
+        - User Module
+      summary: Удалить аккаунт
+      operationId: deleteUser
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - $ref: '../components/parameters.yml#/components/parameters/UserId'
+      responses:
+        '204':
+          description: Аккаунт успешно удален
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '404':
+          description: Пользователь не найден
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+
+  /users/email/{email}:
+    get:
+      tags:
+        - User Module
+      summary: Получить аккаунт по email
+      operationId: getUserByEmail
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: email
+          in: path
+          required: true
+          schema:
+            type: string
+            format: email
+      responses:
+        '200':
+          description: Данные пользователя
+          content:
+            application/json:
+              schema:
+                $ref: '../components/schemas.yml#/components/schemas/UserResponse'
+
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+
+        '404':
+          description: Пользователь не найден
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+
+  /users/{userId}/change-email:
+    post:
+      tags:
+        - User Module
+      summary: Изменить почту
+      operationId: changeEmail
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - $ref: '../components/parameters.yml#/components/parameters/UserId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '../components/schemas.yml#/components/schemas/ChangeEmailRequest'
+      responses:
+        '200':
+          description: Почта успешно изменена
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/SuccessResponse'
+        '400':
+          description: Некорректная текущая почта
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+
+        '404':
+          description: Пользователь не найден
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+
+  /users/{userId}/change-password:
+    post:
+      tags:
+        - User Module
+      summary: Изменить пароль
+      operationId: changePassword
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - $ref: '../components/parameters.yml#/components/parameters/UserId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '../components/schemas.yml#/components/schemas/ChangePasswordRequest'
+      responses:
+        '200':
+          description: Пароль успешно изменен
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/SuccessResponse'
+        '400':
+          description: Некорректный текущий пароль
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+
+        '404':
+          description: Пользователь не найден
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'

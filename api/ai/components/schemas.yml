@@ -1,0 +1,140 @@
+components:
+  schemas:
+    # ==== REQUESTS ====
+    RecognizeModelRequest:
+      type: object
+      required:
+        - photo
+      properties:
+        photo:
+          type: string
+          format: binary
+
+    FurnitureRecommendationRequest:
+      type: object
+      required:
+        - roomDimensions
+      properties:
+        roomDimensions:
+          type: object
+          properties:
+            width:
+              type: number
+            height:
+              type: number
+            depth:
+              type: number
+        style:
+          type: string
+        budget:
+          type: number
+
+    InteriorStyleRecommendationRequest:
+      type: object
+      properties:
+        roomType:
+          type: string
+        budget:
+          type: number
+
+    UserPreferenceRecommendationRequest:
+      type: object
+      properties:
+        preferences:
+          type: object
+          properties:
+            colors:
+              type: array
+              items:
+                type: string
+            styles:
+              type: array
+              items:
+                type: string
+            materials:
+              type: array
+              items:
+                type: string
+
+
+    # ==== RESPONSES ====
+    RecognizeModelResponse:
+      type: object
+      properties:
+        recognizedModels:
+          type: array
+          items:
+            type: object
+            properties:
+              modelId:
+                type: string
+                format: uuid
+              name:
+                type: string
+              confidence:
+                type: number
+              category:
+                type: string
+
+    FurnitureRecommendationResponse:
+      type: object
+      properties:
+        recommendations:
+          type: array
+          items:
+            type: object
+            properties:
+              furnitureId:
+                type: string
+                format: uuid
+              name:
+                type: string
+              position:
+                type: object
+              reason:
+                type: string
+
+    InteriorStyleRecommendationResponse:
+      type: object
+      properties:
+        styles:
+          type: array
+          items:
+            type: object
+            properties:
+              styleName:
+                type: string
+              description:
+                type: string
+              furniture:
+                type: array
+                items:
+                  type: object
+              materials:
+                type: array
+                items:
+                  type: object
+
+    UserPreferenceRecommendationResponse:
+      type: object
+      properties:
+        recommendations:
+          type: array
+          items:
+            type: object
+            properties:
+              interiorId:
+                type: string
+                format: uuid
+              name:
+                type: string
+              matchScore:
+                type: number
+              furniture:
+                type: array
+                items:
+                  type: object
+              materials:
+                type: array
+                items:
+                  type: object

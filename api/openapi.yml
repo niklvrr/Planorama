@@ -1,0 +1,154 @@
+openapi: 3.0.3
+info:
+  title: Planorama API спецификация
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080/api/v1/
+    description: Dev server
+
+tags:
+  - name: User Module
+    description: Управление пользователями и аутентификацией
+  - name: Project Module
+    description: Управление проектами и сценами
+  - name: Catalog Module
+    description: Каталог мебели, материалов и категорий
+  - name: AI Module
+    description: AI функции для рекомендаций и распознавания
+  - name: Payment Module
+    description: Управление платежами и подписками
+  - name: Estimate Module
+    description: Управление сметами и расчетами стоимости
+
+paths:
+  # ==== USER MODULE ====
+  # public
+  /users/login:
+    $ref: './user/paths/public.yml#/paths/~1users~1login'
+  /users/register:
+    $ref: './user/paths/public.yml#/paths/~1users~1register'
+  /users/verify-email:
+    $ref: './user/paths/public.yml#/paths/~1users~1verify-email'
+  /users/logout:
+    $ref: './user/paths/public.yml#/paths/~1users~1logout'
+  /users/{userId}:
+    $ref: './user/paths/public.yml#/paths/~1users~1{userId}'
+  /users/email/{email}:
+    $ref: './user/paths/public.yml#/paths/~1users~1email~1{email}'
+  /users/{userId}/change-email:
+    $ref: './user/paths/public.yml#/paths/~1users~1{userId}~1change-email'
+  /users/{userId}/change-password:
+    $ref: './user/paths/public.yml#/paths/~1users~1{userId}~1change-password'
+
+  #admin
+  /admin/users/{userId}/block:
+    $ref: './user/paths/admin.yml#/paths/~1admin~1users~1{userId}~1block'
+  /admin/users/{userId}/unblock:
+    $ref: './user/paths/admin.yml#/paths/~1admin~1users~1{userId}~1unblock'
+  /admin/users:
+    $ref: './user/paths/admin.yml#/paths/~1admin~1users'
+  /admin/users/{userId}/promote:
+    $ref: './user/paths/admin.yml#/paths/~1admin~1users~1{userId}~1promote'
+
+  # ==== PROJECT MODULE ====
+  /projects:
+    $ref: './project/paths/public.yml#/paths/~1projects'
+  /project/{projectId}:
+    $ref: './project/paths/public.yml#/paths/~1projects~1{projectId}'
+  /project/{projecId}/scenes:
+    $ref: './project/paths/public.yml#/paths/~1projects~1{projectId}~1scenes'
+  /project/{projecId}/scenes/from-photo:
+    $ref: './project/paths/public.yml#/paths/~1projects~1{projectId}~1scenes~1from-photo'
+  /project/{projecId}/scenes/{sceneId}:
+    $ref: './project/paths/public.yml#/paths/~1projects~1{projectId}~1scenes~1{sceneId}'
+  /project/{projecId}/scenes/{sceneId}/furniture:
+    $ref: './project/paths/public.yml#/paths/~1projects~1{projectId}~1scenes~1{sceneId}~1furniture'
+  /project/{projecId}/scenes/{sceneId}/furniture/{furnitureId}:
+    $ref: './project/paths/public.yml#/paths/~1projects~1{projectId}~1scenes~1{sceneId}~1furniture~1{furnitureId}'
+  /project/{projecId}/scenes/{sceneId}/materials:
+    $ref: './project/paths/public.yml#/paths/~1projects~1{projectId}~1scenes~1{sceneId}~1materials'
+  /project/{projecId}/scenes/{sceneId}/materials/{materialId}:
+    $ref: './project/paths/public.yml#/paths/~1projects~1{projectId}~1scenes~1{sceneId}~1materials~1{materialId}'
+  /project/{projecId}/scenes/{sceneId}/furniture/import-from-photo:
+    $ref: './project/paths/public.yml#/paths/~1projects~1{projectId}~1scenes~1{sceneId}~1furniture~1import-from-photo'
+  /project/{projecId}/scenes/{sceneId}/furniture/import-from-model:
+    $ref: './project/paths/public.yml#/paths/~1projects~1{projectId}~1scenes~1{sceneId}~1furniture~1import-from-model'
+
+  # ==== CATALOG MODULE ====
+  # public
+  /catalog/categories:
+    $ref: './catalog/paths/public.yml#/paths/~1catalog~1categories'
+  /catalog/furniture:
+    $ref: './catalog/paths/public.yml#/paths/~1catalog~1furniture'
+  /catalog/furniture/{furnitureId}:
+    $ref: './catalog/paths/public.yml#/paths/~1catalog~1furniture~1{furnitureId}'
+  /catalog/materials:
+    $ref: './catalog/paths/public.yml#/paths/~1catalog~1materials'
+  /catalog/materials/{materialId}:
+    $ref: './catalog/paths/public.yml#/paths/~1catalog~1materials~1{materialId}'
+  /catalog/search:
+    $ref: './catalog/paths/public.yml#/paths/~1catalog~1search'
+  /catalog/filter:
+    $ref: './catalog/paths/public.yml#/paths/~1catalog~1filter'
+  /catalog/favorites:
+    $ref: './catalog/paths/public.yml#/paths/~1catalog~1favorites'
+
+  # admin
+  /admin/catalog/categories:
+    $ref: './catalog/paths/admin.yml#/paths/~1admin~1catalog~1categories'
+  /admin/catalog/categories/{categoryId}:
+    $ref: './catalog/paths/admin.yml#/paths/~1admin~1catalog~1categories~1{categoryId}'
+  /admin/catalog/furniture:
+    $ref: './catalog/paths/admin.yml#/paths/~1admin~1catalog~1furniture'
+  /admin/catalog/furniture/{furnitureId}:
+    $ref: './catalog/paths/admin.yml#/paths/~1admin~1catalog~1furniture~1{furnitureId}'
+  /admin/catalog/materials:
+    $ref: './catalog/paths/admin.yml#/paths/~1admin~1catalog~1materials'
+  /admin/catalog/materials/{materialId}:
+    $ref: './catalog/paths/admin.yml#/paths/~1admin~1catalog~1materials~1{materialId}'
+
+  # ==== AI MODULE ====
+  /ai/recognize-model:
+    $ref: './ai/paths/public.yml#/paths/~1ai~1recognize-model'
+  /ai/furniture-recommendations:
+    $ref: './ai/paths/public.yml#/paths/~1ai~1furniture-recommendations'
+  /ai/interior-style-recommendations:
+    $ref: './ai/paths/public.yml#/paths/~1ai~1interior-style-recommendations'
+  /ai/user-preference-recommendations:
+    $ref: './ai/paths/public.yml#/paths/~1ai~1user-preference-recommendations'
+
+  # ==== ESTIMATE MODULE ====
+  /payments:
+    $ref: './payment/paths/public.yml#/paths/~1payments'
+  /payments/{paymentId}:
+    $ref: './payment/paths/public.yml#/paths/~1payments~1{paymentId}'
+  /payments/webhook:
+    $ref: './payment/paths/public.yml#/paths/~1payments~1webhook'
+  /subscriptions:
+    $ref: './payment/paths/public.yml#/paths/~1subscriptions'
+  /subscriptions/cancel:
+    $ref: './payment/paths/public.yml#/paths/~1subscriptions~1cancel'
+
+  # ==== PAYMENT MODULE ====
+  /estimates:
+    $ref: './estimate/paths/public.yml#/paths/~1estimates'
+  /estimates/{estimateId}:
+    $ref: './estimate/paths/public.yml#/paths/~1estimates~1{estimateId}'
+  /estimates/{estimateId}/furniture:
+    $ref: './estimate/paths/public.yml#/paths/~1estimates~1{estimateId}'
+  /estimates/{estimateId}/materials:
+    $ref: './estimate/paths/public.yml#/paths/~1estimates~1{estimateId}~1materials'
+  /estimates/{estimateId}/clear:
+    $ref: './estimate/paths/public.yml#/paths/~1estimates~1{estimateId}~1clear'
+  /estimates/{estimateId}/total:
+    $ref: './estimate/paths/public.yml#/paths/~1estimates~1{estimateId}~1total'
+  /estimates/{estimateId}/export:
+    $ref: './estimate/paths/public.yml#/paths/~1estimates~1{estimateId}~1export'
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

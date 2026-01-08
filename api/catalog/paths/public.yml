@@ -1,0 +1,328 @@
+paths:
+  /catalog/categories:
+    get:
+      tags:
+        - Catalog Module
+      summary: Получить список категорий
+      operationId: listCategories
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - $ref: '../../common/components/parameters.yml#/components/parameters/PageParam'
+        - $ref: '../../common/components/parameters.yml#/components/parameters/LimitParam'
+      responses:
+        '200':
+          description: Список категорий
+          content:
+            application/json:
+              schema:
+                $ref: '../components/schemas.yml#/components/schemas/CategoryListResponse'
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+
+  /catalog/furniture:
+    get:
+      tags:
+        - Catalog Module
+      summary: Получить список моделей мебели
+      operationId: listFurniture
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - $ref: '../../common/components/parameters.yml#/components/parameters/PageParam'
+        - $ref: '../../common/components/parameters.yml#/components/parameters/LimitParam'
+        - name: categoryId
+          in: query
+          schema:
+            type: string
+            format: uuid
+        - name: search
+          in: query
+          schema:
+            type: string
+        - name: sort
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Список мебели
+          content:
+            application/json:
+              schema:
+                $ref: '../components/schemas.yml#/components/schemas/FurnitureListResponse'
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+
+  /catalog/furniture/{furnitureId}:
+    get:
+      tags:
+        - Catalog Module
+      summary: Получить модель мебели
+      operationId: getFurniture
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: furnitureId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Данные мебели
+          content:
+            application/json:
+              schema:
+                $ref: '../components/schemas.yml#/components/schemas/FurnitureResponse'
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '404':
+          description: Мебель не найдена
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+
+  /catalog/materials:
+    get:
+      tags:
+        - Catalog Module
+      summary: Получить список материалов
+      operationId: listMaterials
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - $ref: '../../common/components/parameters.yml#/components/parameters/PageParam'
+        - $ref: '../../common/components/parameters.yml#/components/parameters/LimitParam'
+        - name: search
+          in: query
+          schema:
+            type: string
+        - name: sort
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Список материалов
+          content:
+            application/json:
+              schema:
+                $ref: '../components/schemas.yml#/components/schemas/MaterialListResponse'
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+
+  /catalog/materials/{materialId}:
+    get:
+      tags:
+        - Catalog Module
+      summary: Получить материал
+      operationId: getMaterial
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: materialId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Данные материала
+          content:
+            application/json:
+              schema:
+                $ref: '../components/schemas.yml#/components/schemas/MaterialResponse'
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '404':
+          description: Материал не найден
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+
+  /catalog/search:
+    get:
+      tags:
+        - Catalog Module
+      summary: Поиск в каталоге
+      operationId: searchCatalog
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: query
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: type
+          in: query
+          schema:
+            type: string
+            enum: [ furniture, materials, all ]
+        - $ref: '../../common/components/parameters.yml#/components/parameters/PageParam'
+        - $ref: '../../common/components/parameters.yml#/components/parameters/LimitParam'
+      responses:
+        '200':
+          description: Результаты поиска
+          content:
+            application/json:
+              schema:
+                $ref: '../components/schemas.yml#/components/schemas/SearchResultResponse'
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+
+  /catalog/filter:
+    get:
+      tags:
+        - Catalog Module
+      summary: Фильтрация каталога
+      operationId: filterCatalog
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: category
+          in: query
+          schema:
+            type: string
+        - $ref: '../../common/components/parameters.yml#/components/parameters/PageParam'
+        - $ref: '../../common/components/parameters.yml#/components/parameters/LimitParam'
+      responses:
+        '200':
+          description: Отфильтрованные результаты
+          content:
+            application/json:
+              schema:
+                $ref: '../components/schemas.yml#/components/schemas/SearchResultResponse'
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+
+  /catalog/favorites:
+    get:
+      tags:
+        - Catalog Module
+      summary: Получить список мебели или материалов, добавленных в избранное
+      operationId: listFavorites
+
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - $ref: '../../common/components/parameters.yml#/components/parameters/PageParam'
+        - $ref: '../../common/components/parameters.yml#/components/parameters/LimitParam'
+      responses:
+        '200':
+          description: Список мебели или материалов, добавленных в избранное
+          content:
+            application/json:
+              schema:
+                $ref: '../components/schemas.yml#/components/schemas/FavoritesListResponse'
+        '400':
+          description: Некорректные данные
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+
+    post:
+      tags:
+        - Catalog Module
+      summary: Добавить в избранное
+      operationId: addToFavorites
+
+      security:
+        - BearerAuth: [ ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '../components/schemas.yml#/components/schemas/AddToFavoritesRequest'
+      responses:
+        '201':
+          description: Добавлено в избранное
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/SuccessResponse'
+        '400':
+          description: Некорректные данные
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+    delete:
+      tags:
+        - Catalog Module
+      summary: Удалить из избранного
+      operationId: removeFromFavorites
+      security:
+        - BearerAuth: [ ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '../components/schemas.yml#/components/schemas/RemoveFromFavoritesRequest'
+      responses:
+        '204':
+          description: Удалено из избранного
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/SuccessResponse'
+        '400':
+          description: Некорректные данные
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'

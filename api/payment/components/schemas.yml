@@ -1,0 +1,130 @@
+components:
+  schemas:
+    # ==== REQUESTS ====
+    CreatePaymentRequest:
+      type: object
+      required:
+        - amount
+        - currency
+        - subscriptionPlan
+      properties:
+        amount:
+          type: number
+        currency:
+          type: string
+        subscriptionPlan:
+          type: string
+        paymentMethod:
+          type: string
+
+    PaymentWebhookRequest:
+      type: object
+      required:
+        - paymentId
+        - status
+      properties:
+        paymentId:
+          type: string
+          format: uuid
+        status:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+
+    RefundRequest:
+      type: object
+      required:
+        - reason
+      properties:
+        reason:
+          type: string
+        amount:
+          type: number
+        currency:
+          type: string
+
+
+
+    # ==== RESPONSES ====
+    PaymentResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        userId:
+          type: string
+          format: uuid
+        amount:
+          type: number
+        currency:
+          type: string
+        status:
+          type: string
+        subscriptionPlan:
+          type: string
+        paymentUrl:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+
+    PaymentStatusResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum: [ pending, completed, failed, cancelled ]
+        amount:
+          type: number
+        currency:
+          type: string
+        updatedAt:
+          type: string
+          format: date-time
+
+    RefundResponse:
+      type: object
+      properties:
+        refundId:
+          type: string
+          format: uuid
+        paymentId:
+          type: string
+          format: uuid
+        amount:
+          type: number
+        status:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+
+    SubscriptionResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        userId:
+          type: string
+          format: uuid
+        plan:
+          type: string
+        status:
+          type: string
+        startDate:
+          type: string
+          format: date-time
+        endDate:
+          type: string
+          format: date-time
+        renewalDate:
+          type: string
+          format: date-time
+        autoRenew:
+          type: boolean

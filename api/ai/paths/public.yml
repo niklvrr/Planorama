@@ -1,0 +1,136 @@
+paths:
+  /ai/recognize-model:
+    post:
+      tags:
+        - AI Module
+      summary: Распознавание 3D-модели по фото
+      operationId: recognizeModel
+      security:
+        - BearerAuth: [ ]
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '../components/schemas.yml#/components/schemas/RecognizeModelRequest'
+      responses:
+        '200':
+          description: Результаты распознавания
+          content:
+            application/json:
+              schema:
+                $ref: '../components/schemas.yml#/components/schemas/RecognizeModelResponse'
+        '400':
+          description: Некорректные данные
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+
+  /ai/furniture-recommendations:
+    post:
+      tags:
+        - AI Module
+      summary: Рекомендации по расстановке мебели в доме
+      operationId: getFurnitureRecommendations
+      security:
+        - BearerAuth: [ ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '../components/schemas.yml#/components/schemas/FurnitureRecommendationRequest'
+      responses:
+        '200':
+          description: Рекомендации по мебели
+          content:
+            application/json:
+              schema:
+                $ref: '../components/schemas.yml#/components/schemas/FurnitureRecommendationResponse'
+        '400':
+          description: Некорректные данные
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+
+  /ai/interior-style-recommendations:
+    post:
+      tags:
+        - AI Module
+      summary: Рекомендации с готовыми интерьерами в разных стилях
+      operationId: getInteriorStyleRecommendations
+      security:
+        - BearerAuth: [ ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '../components/schemas.yml#/components/schemas/InteriorStyleRecommendationRequest'
+      responses:
+        '200':
+          description: Рекомендации по стилям интерьеров
+          content:
+            application/json:
+              schema:
+                $ref: '../components/schemas.yml#/components/schemas/InteriorStyleRecommendationResponse'
+        '400':
+          description: Некорректные данные
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+
+  /ai/user-preference-recommendations:
+    post:
+      tags:
+        - AI Module
+      summary: Рекомендации интерьеров по характеристикам пользователя
+      operationId: getUserPreferenceRecommendations
+      security:
+        - BearerAuth: [ ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '../components/schemas.yml#/components/schemas/UserPreferenceRecommendationRequest'
+      responses:
+        '200':
+          description: Рекомендации по предпочтениям пользователя
+          content:
+            application/json:
+              schema:
+                $ref: '../components/schemas.yml#/components/schemas/UserPreferenceRecommendationResponse'
+        '400':
+          description: Некорректные данные
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'

@@ -1,0 +1,392 @@
+paths:
+  /admin/catalog/categories:
+  post:
+    tags:
+      - Catalog Module
+    summary: Создать категорию
+    operationId: createCategory
+    security:
+      - BearerAuth: [ ]
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../components/schemas.yml#/components/schemas/CreateCategoryRequest'
+    responses:
+      '201':
+        description: Категория создана
+        content:
+          application/json:
+            schema:
+              $ref: '../components/schemas.yml#/components/schemas/CategoryResponse'
+      '400':
+        description: Некорректные данные
+        content:
+          application/json:
+            schema:
+              $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+      '401':
+        description: Пользователь не авторизован
+        content:
+          application/json:
+            schema:
+              $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+      '403':
+        description: Недостаточно прав
+        content:
+          application/json:
+            schema:
+              $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+
+  /admin/catalog/categories/{categoryId}:
+    put:
+      tags:
+        - Catalog Module
+      summary: Изменить категорию
+      operationId: updateCategory
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: categoryId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '../components/schemas.yml#/components/schemas/UpdateCategoryRequest'
+      responses:
+        '200':
+          description: Категория обновлена
+          content:
+            application/json:
+              schema:
+                $ref: '../components/schemas.yml#/components/schemas/CategoryResponse'
+        '400':
+          description: Некорректные данные
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '403':
+          description: Недостаточно прав
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '404':
+          description: Категория не найдена
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+    delete:
+      tags:
+        - Catalog Module
+      summary: Удалить категорию
+      operationId: deleteCategory
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: categoryId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Категория удалена
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/SuccessResponse'
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '403':
+          description: Недостаточно прав
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '404':
+          description: Категория не найдена
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+
+  /admin/catalog/furniture:
+    post:
+      tags:
+        - Catalog Module
+      summary: Добавить модель мебели в каталог
+      operationId: createFurniture
+      security:
+        - BearerAuth: [ ]
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '../components/schemas.yml#/components/schemas/CreateFurnitureRequest'
+      responses:
+        '201':
+          description: Мебель добавлена
+          content:
+            application/json:
+              schema:
+                $ref: '../components/schemas.yml#/components/schemas/FurnitureResponse'
+        '400':
+          description: Некорректные данные
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '403':
+          description: Недостаточно прав
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+
+  /admin/catalog/furniture/{furnitureId}:
+    put:
+      tags:
+        - Catalog Module
+      summary: Изменить модель мебели
+      operationId: updateFurniture
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: furnitureId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '../components/schemas.yml#/components/schemas/UpdateFurnitureRequest'
+      responses:
+        '200':
+          description: Мебель обновлена
+          content:
+            application/json:
+              schema:
+                $ref: '../components/schemas.yml#/components/schemas/FurnitureResponse'
+        '400':
+          description: Некорректные данные
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '403':
+          description: Недостаточно прав
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '404':
+          description: Мебель не найдена
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+    delete:
+      tags:
+        - Catalog Module
+      summary: Удалить модель мебели
+      operationId: deleteFurniture
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: furnitureId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Мебель удалена
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/SuccessResponse'
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '403':
+          description: Недостаточно прав
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '404':
+          description: Мебель не найдена
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+
+  /admin/catalog/materials:
+    post:
+      tags:
+        - Catalog Module
+      summary: Добавить материал в каталог
+      operationId: createMaterial
+      security:
+        - BearerAuth: [ ]
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '../components/schemas.yml#/components/schemas/CreateMaterialRequest'
+      responses:
+        '201':
+          description: Материал добавлен
+          content:
+            application/json:
+              schema:
+                $ref: '../components/schemas.yml#/components/schemas/MaterialResponse'
+        '400':
+          description: Некорректные данные
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '403':
+          description: Недостаточно прав
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+
+  /admin/catalog/materials/{materialId}:
+    put:
+      tags:
+        - Catalog Module
+      summary: Изменить материал
+      operationId: updateMaterial
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: materialId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '../components/schemas.yml#/components/schemas/UpdateMaterialRequest'
+      responses:
+        '200':
+          description: Материал обновлен
+          content:
+            application/json:
+              schema:
+                $ref: '../components/schemas.yml#/components/schemas/MaterialResponse'
+        '400':
+          description: Некорректные данные
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '403':
+          description: Недостаточно прав
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '404':
+          description: Материал не найден
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+    delete:
+      tags:
+        - Catalog Module
+      summary: Удалить материал
+      operationId: deleteMaterial
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: materialId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Материал удален
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '403':
+          description: Недостаточно прав
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '404':
+          description: Материал не найден
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'

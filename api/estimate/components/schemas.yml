@@ -1,0 +1,115 @@
+components:
+  schemas:
+    # ==== REQUESTS ====
+    CreateEstimateRequest:
+      type: object
+      required:
+        - sceneId
+      properties:
+        sceneId:
+          type: string
+          format: uuid
+        name:
+          type: string
+
+    UpdateEstimateRequest:
+      type: object
+      properties:
+        name:
+          type: string
+
+    AddEstimateItemRequest:
+      type: object
+      required:
+        - itemId
+        - quantity
+      properties:
+        itemId:
+          type: string
+          format: uuid
+        quantity:
+          type: number
+
+
+    # ==== RESPONSES ====
+    EstimateItem:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        type:
+          type: string
+          enum: [ furniture, material ]
+        itemId:
+          type: string
+          format: uuid
+        name:
+          type: string
+        quantity:
+          type: number
+        unitPrice:
+          type: number
+        totalPrice:
+          type: number
+
+    EstimateResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        userId:
+          type: string
+          format: uuid
+        sceneId:
+          type: string
+          format: uuid
+        name:
+          type: string
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/EstimateItem'
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    EstimateItemResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        estimateId:
+          type: string
+          format: uuid
+        type:
+          type: string
+        itemId:
+          type: string
+          format: uuid
+        quantity:
+          type: number
+        unitPrice:
+          type: number
+        totalPrice:
+          type: number
+
+    EstimateTotalResponse:
+      type: object
+      properties:
+        estimateId:
+          type: string
+          format: uuid
+        furnitureTotal:
+          type: number
+        materialsTotal:
+          type: number
+        grandTotal:
+          type: number
+        currency:
+          type: string

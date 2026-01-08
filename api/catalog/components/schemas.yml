@@ -1,0 +1,246 @@
+components:
+  schemas:
+    # ==== REQUESTS ====
+    CategoryListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/CategoryResponse'
+        pagination:
+          $ref: '../../common/components/schemas.yml#/components/schemas/Pagination'
+
+    CreateCategoryRequest:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+
+    UpdateCategoryRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+
+    CreateFurnitureRequest:
+      type: object
+      required:
+        - name
+        - categoryId
+        - dimensions
+        - model3d
+        - thumbnail
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        categoryId:
+          type: string
+          format: uuid
+        dimensions:
+          type: object
+          properties:
+            width:
+              type: number
+            height:
+              type: number
+            depth:
+              type: number
+        model3d:
+          type: string
+          format: binary
+        thumbnail:
+          type: string
+          format: binary
+
+    UpdateFurnitureRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        categoryId:
+          type: string
+          format: uuid
+        dimensions:
+          type: object
+        model3d:
+          type: string
+          format: binary
+        thumbnail:
+          type: string
+          format: binary
+
+    CreateMaterialRequest:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        texture:
+          type: string
+          format: binary
+        properties:
+          type: object
+
+    UpdateMaterialRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        texture:
+          type: string
+          format: binary
+        properties:
+          type: object
+
+
+    # ==== RESPONSES ====
+    CategoryResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    FurnitureResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+        categoryId:
+          type: string
+          format: uuid
+        dimensions:
+          type: object
+        model3dUrl:
+          type: string
+        thumbnailUrl:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    FurnitureListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/FurnitureResponse'
+        pagination:
+          $ref: '../../common/components/schemas.yml#/components/schemas/Pagination'
+
+    MaterialResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+        categoryId:
+          type: string
+          format: uuid
+        textureUrl:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    MaterialListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/MaterialResponse'
+        pagination:
+          $ref: '../../common/components/schemas.yml#/components/schemas/Pagination'
+
+    SearchResultResponse:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            oneOf:
+              - $ref: '#/components/schemas/FurnitureResponse'
+              - $ref: '#/components/schemas/MaterialResponse'
+        pagination:
+          $ref: '../../common/components/schemas.yml#/components/schemas/Pagination'
+
+    FavoritesListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            oneOf:
+              - $ref: '#/components/schemas/FurnitureResponse'
+              - $ref: '#/components/schemas/MaterialResponse'
+        pagination:
+          $ref: '../../common/components/schemas.yml#/components/schemas/Pagination'
+
+    AddToFavoritesRequest:
+      type: object
+      required:
+        - itemId
+        - type
+      properties:
+        itemId:
+          type: string
+          format: uuid
+        type:
+          type: string
+          enum: [ furniture, material ]
+
+    RemoveFromFavoritesRequest:
+      type: object
+      required:
+        - itemId
+        - type
+      properties:
+        itemId:
+          type: string
+          format: uuid
+        type:
+          type: string
+          enum: [ furniture, material ]

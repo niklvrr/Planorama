@@ -1,0 +1,564 @@
+paths:
+  /projects:
+    post:
+      tags:
+        - Project Module
+      summary: Создать проект
+      operationId: createProject
+      security:
+        - BearerAuth: [ ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '../components/schemas.yml#/components/schemas/CreateProjectRequest'
+      responses:
+        '201':
+          description: Проект создан
+          content:
+            application/json:
+              schema:
+                $ref: '../components/schemas.yml#/components/schemas/ProjectResponse'
+        '400':
+          description: Некорректные данные
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '409':
+          description: Проект уже существует
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+    get:
+      tags:
+        - Project Module
+      summary: Получить список проектов
+      operationId: listProjects
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - $ref: '../../common/components/parameters.yml#/components/parameters/PageParam'
+        - $ref: '../../common/components/parameters.yml#/components/parameters/LimitParam'
+      responses:
+        '200':
+          description: Список проектов
+          content:
+            application/json:
+              schema:
+                $ref: '../components/schemas.yml#/components/schemas/ProjectListResponse'
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+
+  /projects/{projectId}:
+    get:
+      tags:
+        - Project Module
+      summary: Открыть проект
+      operationId: getProject
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - $ref: '../components/parameters.yml#/components/parameters/ProjectId'
+      responses:
+        '200':
+          description: Данные проекта
+          content:
+            application/json:
+              schema:
+                $ref: '../components/schemas.yml#/components/schemas/ProjectResponse'
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '404':
+          description: Проект не найден
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+    put:
+      tags:
+        - Project Module
+      summary: Изменить проект
+      operationId: updateProject
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - $ref: '../components/parameters.yml#/components/parameters/ProjectId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '../components/schemas.yml#/components/schemas/UpdateProjectRequest'
+      responses:
+        '200':
+          description: Проект обновлен
+          content:
+            application/json:
+              schema:
+                $ref: '../components/schemas.yml#/components/schemas/ProjectResponse'
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '404':
+          description: Проект не найден
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+    delete:
+      tags:
+        - Project Module
+      summary: Удалить проект
+      operationId: deleteProject
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - $ref: '../components/parameters.yml#/components/parameters/ProjectId'
+      responses:
+        '204':
+          description: Проект удален
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '404':
+          description: Проект не найден
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+
+  /projects/{projectId}/scenes:
+    post:
+      tags:
+        - Project Module
+      summary: Создать сцену по чертежу
+      operationId: createSceneFromBlueprint
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - $ref: '../components/parameters.yml#/components/parameters/ProjectId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '../components/schemas.yml#/components/schemas/CreateSceneFromBlueprintRequest'
+      responses:
+        '201':
+          description: Сцена создана
+          content:
+            application/json:
+              schema:
+                $ref: '../components/schemas.yml#/components/schemas/SceneResponse'
+        '400':
+          description: Некорректные данные
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '404':
+          description: Проект не найден
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+
+  /projects/{projectId}/scenes/from-photo:
+    post:
+      tags:
+        - Project Module
+      summary: Создать сцену по фото
+      operationId: createSceneFromPhoto
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - $ref: '../components/parameters.yml#/components/parameters/ProjectId'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '../components/schemas.yml#/components/schemas/CreateSceneFromPhotoRequest'
+      responses:
+        '201':
+          description: Сцена создана
+          content:
+            application/json:
+              schema:
+                $ref: '../components/schemas.yml#/components/schemas/SceneResponse'
+        '400':
+          description: Некорректные данные
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '404':
+          description: Проект не найден
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+
+  /projects/{projectId}/scenes/{sceneId}:
+    get:
+      tags:
+        - Project Module
+      summary: Открыть сцену
+      operationId: getScene
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - $ref: '../components/parameters.yml#/components/parameters/ProjectId'
+        - $ref: '../components/parameters.yml#/components/parameters/SceneId'
+      responses:
+        '200':
+          description: Данные сцены
+          content:
+            application/json:
+              schema:
+                $ref: '../components/schemas.yml#/components/schemas/SceneResponse'
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '404':
+          description: Сцена или проект не найдено
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+    put:
+      tags:
+        - Project Module
+      summary: Изменить сцену
+      operationId: updateScene
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - $ref: '../components/parameters.yml#/components/parameters/ProjectId'
+        - $ref: '../components/parameters.yml#/components/parameters/SceneId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '../components/schemas.yml#/components/schemas/UpdateSceneRequest'
+      responses:
+        '200':
+          description: Сцена обновлена
+          content:
+            application/json:
+              schema:
+                $ref: '../components/schemas.yml#/components/schemas/SceneResponse'
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '404':
+          description: Сцена или проект не найдено
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+    delete:
+      tags:
+        - Project Module
+      summary: Удалить сцену
+      operationId: deleteScene
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - $ref: '../components/parameters.yml#/components/parameters/ProjectId'
+        - $ref: '../components/parameters.yml#/components/parameters/SceneId'
+      responses:
+        '204':
+          description: Сцена удалена
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '404':
+          description: Сцена или проект не найдено
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+
+  /projects/{projectId}/scenes/{sceneId}/furniture:
+    post:
+      tags:
+        - Project Module
+      summary: Добавить мебель в сцену
+      operationId: addFurnitureToScene
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - $ref: '../components/parameters.yml#/components/parameters/ProjectId'
+        - $ref: '../components/parameters.yml#/components/parameters/SceneId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '../components/schemas.yml#/components/schemas/AddFurnitureRequest'
+      responses:
+        '201':
+          description: Мебель добавлена
+          content:
+            application/json:
+              schema:
+                $ref: '../components/schemas.yml#/components/schemas/FurnitureInSceneResponse'
+        '400':
+          description: Некорректные данные
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '404':
+          description: Сцена или проект не найдена
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+
+  /projects/{projectId}/scenes/{sceneId}/furniture/{furnitureId}:
+    delete:
+      tags:
+        - Project Module
+      summary: Удалить мебель из сцены
+      operationId: removeFurnitureFromScene
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - $ref: '../components/parameters.yml#/components/parameters/ProjectId'
+        - $ref: '../components/parameters.yml#/components/parameters/SceneId'
+        - name: furnitureId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Мебель удалена
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '404':
+          description: Мебель или сцена или проект не найдено
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+
+  /projects/{projectId}/scenes/{sceneId}/materials:
+    post:
+      tags:
+        - Project Module
+      summary: Добавить материал в сцену
+      operationId: addMaterialToScene
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - $ref: '../components/parameters.yml#/components/parameters/ProjectId'
+        - $ref: '../components/parameters.yml#/components/parameters/SceneId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '../components/schemas.yml#/components/schemas/AddMaterialRequest'
+      responses:
+        '201':
+          description: Материал добавлен
+          content:
+            application/json:
+              schema:
+                $ref: '../components/schemas.yml#/components/schemas/MaterialInSceneResponse'
+        '400':
+          description: Некорректные данные
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '404':
+          description: Сцена или проект не найдено
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+
+  /projects/{projectId}/scenes/{sceneId}/materials/{materialId}:
+    delete:
+      tags:
+        - Project Module
+      summary: Удалить материал из сцены
+      operationId: removeMaterialFromScene
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - $ref: '../components/parameters.yml#/components/parameters/ProjectId'
+        - $ref: '../components/parameters.yml#/components/parameters/SceneId'
+        - name: materialId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Материал удален
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '404':
+          description: Материал или сцена или проект не найдено
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+
+  /projects/{projectId}/scenes/{sceneId}/furniture/import-from-photo:
+    post:
+      tags:
+        - Project Module
+      summary: Импорт мебели из фото
+      operationId: importFurnitureFromPhoto
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - $ref: '../components/parameters.yml#/components/parameters/ProjectId'
+        - $ref: '../components/parameters.yml#/components/parameters/SceneId'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '../components/schemas.yml#/components/schemas/ImportFurnitureFromPhotoRequest'
+      responses:
+        '201':
+          description: Мебель импортирована
+          content:
+            application/json:
+              schema:
+                $ref: '../components/schemas.yml#/components/schemas/FurnitureInSceneResponse'
+        '400':
+          description: Некорректные данные
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '404':
+          description: Сцена или проект не найдено
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+
+  /projects/{projectId}/scenes/{sceneId}/furniture/import-from-model:
+    post:
+      tags:
+        - Project Module
+      summary: Импорт мебели из 3D модели
+      operationId: importFurnitureFromModel
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - $ref: '../components/parameters.yml#/components/parameters/ProjectId'
+        - $ref: '../components/parameters.yml#/components/parameters/SceneId'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '../components/schemas.yml#/components/schemas/ImportFurnitureFromModelRequest'
+      responses:
+        '201':
+          description: Мебель импортирована
+          content:
+            application/json:
+              schema:
+                $ref: '../components/schemas.yml#/components/schemas/FurnitureInSceneResponse'
+        '400':
+          description: Некорректные данные
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
+        '404':
+          description: Сцена или проект не найдено
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/components/schemas.yml#/components/schemas/Error'
